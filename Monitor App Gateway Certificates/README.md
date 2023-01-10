@@ -4,7 +4,7 @@ Azure App Gateway provides two mechanisms to apply SSL certificates to listeners
 
 Gateways configured via option 1 don't have a built-in mechanism for monitoring certificate expiration. This is especially problematic for organizations which have deployed a large number of gateways with this configuration.
 
-Long-term, these organizations should move to option 1. If operational challenges exist, or if the migration will take a significant amount of time, this solution provides a workable method for monitoring directly-applied certificates for expiration.
+Long-term, these organizations should move to option 2. If operational challenges exist, or if the migration will take a significant amount of time, this solution provides a workable method for monitoring directly-applied certificates for expiration.
 
 # Requirements
 
