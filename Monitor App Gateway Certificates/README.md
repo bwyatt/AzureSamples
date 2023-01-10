@@ -16,7 +16,7 @@ Long-term, these organizations should move to option 1. If operational challenge
 
 # How it Works
 
-The PowerShell script iterates over all the Application Gateways it has access to read and inspects the SSL configuration of every listener on the Application Gateway. 
+The PowerShell script authenticates as the Managed Identity, iterates over all the Application Gateways it has access to read, and inspects the SSL configuration of every listener on the Application Gateway. It ignores listeners which use Azure Key Vault certificates, because Key Vault has its own built-in monitoring functionality that should be used instead for those listeners.
 
 When it identifies an SSL certificate that will expire within a configurable window, it raises a Warning. This gets logged into Log Analytics, which can then be used to raise an Alert from Azure Monitor.
 
