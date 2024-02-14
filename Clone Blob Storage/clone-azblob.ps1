@@ -25,12 +25,19 @@ param(
     [PSDefaultValue(Value="*")]
     [string[]]$Pattern,
     [Parameter(Mandatory=$true, ParameterSetName="Regex")]
+
+    # Optional parameters
     [datetime]$BeforeDate,
     [datetime]$AfterDate,
     [string[]]$Regex,
-    [switch]$OverwriteDestination,
+    [ValidateSet("true", "false", "ifSourceNewer")]
+    [switch]$Overwrite,
     [switch]$Dryrun
 )
+
+# Set up environment
+$SourceTokenApiEndpoint = "https://api.example.com/sourceToken"
+$ApiTimeout = 15 # The timeout period for the API call to retrieve source SAS Token, in seconds
 
 
 # TODO: Determine required permissions for SAS tokens
