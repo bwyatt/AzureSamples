@@ -74,6 +74,34 @@ catch {
 
 
 # Build AzCopy command w/ configuration and tokens
-    # TODO: Implement support for --dry-run flag on AzCopy; fetch the tokens and use them just for the dry run
+$CopyCommand += "'https://$($SourceAccount).blob.core.windows.net/$($SourceContainer)/?$($SourceSasToken)' "
+$CopyCommand += "'https://$($DestinationAccount).blob.core.windows.net/$($DestinationContainer)/?$($DestinationSasToken)' "
+
+
+# Add optional parameters
+if ($Pattern) {
+    $CopyCommand += "--include-pattern `"$($Pattern)`" "
+}
+elseif ($Regex) {
+    $CopyCommand += "--include-regex `"$($Regex)`" "
+}
+
+if ($BeforeDate) {
+    $CopyCommand += "--include-before `"$($BeforeDate)`" "
+}
+
+if ($AfterDate) {
+    $CopyCommand += "--include-after `"$($AfterDate)`" "
+}
+
+if ($Overwrite) {
+    $CopyCommand += "--overwrite `"$($Overwrite)`" "
+}
+
+if ($Dryrun) {
+    $CopyCommand += "--dry-run "
+}
 
 # Execute copy
+
+azcopy copy $CopyCommand
