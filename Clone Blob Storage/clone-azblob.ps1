@@ -74,34 +74,33 @@ catch {
 
 
 # Build AzCopy command w/ configuration and tokens
-$CopyCommand += "'https://$($SourceAccount).blob.core.windows.net/$($SourceContainer)/?$($SourceSasToken)' "
-$CopyCommand += "'https://$($DestinationAccount).blob.core.windows.net/$($DestinationContainer)/?$($DestinationSasToken)' "
+$CopyArgs = "'https://$($SourceAccount).blob.core.windows.net/$($SourceContainer)/?$($SourceSasToken)' "
+$CopyArgs += "'https://$($DestinationAccount).blob.core.windows.net/$($DestinationContainer)/?$($DestinationSasToken)' "
 
 
 # Add optional parameters
 if ($Pattern) {
-    $CopyCommand += "--include-pattern `"$($Pattern)`" "
+    $CopyArgs += "--include-pattern `"$($Pattern)`" "
 }
 elseif ($Regex) {
-    $CopyCommand += "--include-regex `"$($Regex)`" "
+    $CopyArgs += "--include-regex `"$($Regex)`" "
 }
 
 if ($BeforeDate) {
-    $CopyCommand += "--include-before `"$($BeforeDate)`" "
+    $CopyArgs += "--include-before `"$($BeforeDate)`" "
 }
 
 if ($AfterDate) {
-    $CopyCommand += "--include-after `"$($AfterDate)`" "
+    $CopyArgs += "--include-after `"$($AfterDate)`" "
 }
 
 if ($Overwrite) {
-    $CopyCommand += "--overwrite `"$($Overwrite)`" "
+    $CopyArgs += "--overwrite `"$($Overwrite)`" "
 }
 
 if ($Dryrun) {
-    $CopyCommand += "--dry-run "
+    $CopyArgs += "--dry-run "
 }
 
 # Execute copy
-
-azcopy copy $CopyCommand
+azcopy copy $CopyArgs
