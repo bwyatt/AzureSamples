@@ -38,12 +38,8 @@ param(
 $SourceTokenApiEndpoint = "https://api.example.com/sourceToken"
 $ApiTimeout = 15 # The timeout period for the API call to retrieve source SAS Token, in seconds
 
-
-# TODO: Determine required permissions for SAS tokens
-
-# Get SAS token for source account from a web service
-# As a best practice, the token should be short-lived and have only the necessary permissions to perform the copy operation
-$SourceSasToken
+#region Get SAS token for source account from an API - Customize this region for the API being used
+$SourceSasToken = ""
 try {
     $ApiResponse = Invoke-RestMethod -Uri $SourceTokenApiEndpoint `
                         -StatusCodeVariable "ApiStatusCode" -OperationTimeoutSeconds $ApiTimeout
@@ -71,13 +67,12 @@ catch {
     return 3
 }
 
+#endregion
 
-# Build AzCopy command w/ configuration and tokens
+#region Build and execute Azcopy command
 $CopyArgs = "'https://$($SourceAccount).blob.core.windows.net/$($SourceContainer)/?$($SourceSasToken)' "
 $CopyArgs += "'https://$($DestinationAccount).blob.core.windows.net/$($DestinationContainer)/?$($DestinationSasToken)' "
 
-
-# Add optional parameters
 if ($Pattern) {
     $CopyArgs += "--include-pattern `"$($Pattern)`" "
 }
@@ -85,6 +80,8 @@ elseif ($Regex) {
     $CopyArgs += "--include-regex `"$($Regex)`" "
 }
 
+
+# Add optional parameters
 if ($BeforeDate) {
     $CopyArgs += "--include-before `"$($BeforeDate)`" "
 }
@@ -103,3 +100,4 @@ if ($Dryrun) {
 
 # Execute copy
 azcopy copy $CopyArgs
+#endregion
