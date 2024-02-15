@@ -22,14 +22,13 @@ param(
 
     # One of these parameters must be used, but not both
     [Parameter(Mandatory=$true, ParameterSetName="Pattern")] 
-    [PSDefaultValue(Value="*")]
     [string[]]$Pattern,
     [Parameter(Mandatory=$true, ParameterSetName="Regex")]
+    [string[]]$Regex,
 
     # Optional parameters
     [datetime]$BeforeDate,
     [datetime]$AfterDate,
-    [string[]]$Regex,
     [ValidateSet("true", "false", "ifSourceNewer")]
     [switch]$Overwrite,
     [switch]$Dryrun
